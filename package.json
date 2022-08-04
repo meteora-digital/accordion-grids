@@ -1,0 +1,36 @@
+{
+  "name": "@meteora-digital/accordion-grids",
+  "version": "0.0.0",
+  "description": "A class to make accordion grid layouts a breeze",
+  "main": "dist/js/index.js",
+  "scripts": {
+    "test": "npm i && gulp"
+  },
+  "keywords": [
+    "JavaScript",
+    "es6",
+    "classes",
+    "accordion",
+    "grid"
+  ],
+  "author": "Emmanuel Davies",
+  "license": "MIT",
+  "dependencies": {
+    "@meteora-digital/tween": "0.0.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-plumber": "^1.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meteora-digital/classy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/meteora-digital/classy/issues"
+  },
+  "homepage": "https://github.com/meteora-digital/classy#readme"
+}
