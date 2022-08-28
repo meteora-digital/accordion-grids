@@ -1,6 +1,6 @@
 {
   "name": "@meteora-digital/accordion-grids",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A class to make accordion grid layouts a breeze",
   "main": "dist/js/index.js",
   "scripts": {
