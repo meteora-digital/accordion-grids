@@ -27,10 +27,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/meteora-digital/classy.git"
+    "url": "git+https://github.com/meteora-digital/accordion-grids.git"
   },
   "bugs": {
-    "url": "https://github.com/meteora-digital/classy/issues"
+    "url": "https://github.com/meteora-digital/accordion-grids/issues"
   },
-  "homepage": "https://github.com/meteora-digital/classy#readme"
+  "homepage": "https://github.com/meteora-digital/accordion-grids#readme"
 }
