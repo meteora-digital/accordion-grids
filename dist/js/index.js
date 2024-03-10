@@ -195,21 +195,30 @@ var AccoprdionGridController = /*#__PURE__*/function () {
       }
     }
   }, {
-    key: "getLastInRow",
-    value: function getLastInRow() {
+    key: "getCurrentRow",
+    value: function getCurrentRow() {
       // The y offset of the element
-      var elementY = this.element.getBoundingClientRect().top; // The last element in the row
+      var elementY = this.element.getBoundingClientRect().top; // The elements in the current row
 
-      var last = this.element; // Loop the siblings, starting at this element
+      var currentRow = []; // Loop the siblings, starting from the first one
 
-      for (var i = this.index + 1; i < this.siblings.length; i++) {
+      for (var i = 0; i < this.siblings.length; i++) {
         // Calculate the y offset of the sibling
-        var siblingY = this.siblings[i].getBoundingClientRect().top; // If the y offset is equal to the element's y offset, then this is the last in the row
+        var siblingY = this.siblings[i].getBoundingClientRect().top; // If the y offset is equal to the element's y offset, then this is in the current row
 
-        if (siblingY == elementY) last = this.siblings[i];else break;
+        if (siblingY == elementY) currentRow.push(this.siblings[i]); // If the y offset is greater than the element's y offset, then we've passed the current row
+        else if (siblingY > elementY) break;
       }
 
-      return last;
+      return currentRow;
+    }
+  }, {
+    key: "getLastInRow",
+    value: function getLastInRow() {
+      // Get the current row
+      var currentRow = this.getCurrentRow(); // Return the last element in the current row
+
+      return currentRow[currentRow.length - 1];
     }
   }, {
     key: "error",

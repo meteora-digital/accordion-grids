@@ -168,22 +168,30 @@ export default class AccoprdionGridController {
     }
   }
 
-  getLastInRow() {
+  getCurrentRow() {
     // The y offset of the element
     const elementY = this.element.getBoundingClientRect().top;
-    // The last element in the row
-    let last = this.element;
+    // The elements in the current row
+    let currentRow = [];
 
-    // Loop the siblings, starting at this element
-    for (let i = this.index + 1; i < this.siblings.length; i++) {
+    // Loop the siblings, starting from the first one
+    for (let i = 0; i < this.siblings.length; i++) {
       // Calculate the y offset of the sibling
       const siblingY = this.siblings[i].getBoundingClientRect().top;
-      // If the y offset is equal to the element's y offset, then this is the last in the row
-      if (siblingY == elementY) last = this.siblings[i];
-      else break;
+      // If the y offset is equal to the element's y offset, then this is in the current row
+      if (siblingY == elementY) currentRow.push(this.siblings[i]);
+      // If the y offset is greater than the element's y offset, then we've passed the current row
+      else if (siblingY > elementY) break;
     }
 
-    return last;
+    return currentRow;
+  }
+
+  getLastInRow() {
+    // Get the current row
+    const currentRow = this.getCurrentRow();
+    // Return the last element in the current row
+    return currentRow[currentRow.length - 1];
   }
 
   error(message) {
