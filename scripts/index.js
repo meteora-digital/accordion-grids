@@ -9,7 +9,7 @@ Accoprdion Grid Controller
 --------------------------------------------------------- */
 
 export default class AccoprdionGridController {
-  constructor(element) {
+  constructor(element, options = {}) {
     // Store the events here
     this.events = {};
     // The dropdown element
@@ -27,11 +27,41 @@ export default class AccoprdionGridController {
       width: this.parent.clientWidth,
     };
 
-    // We will use this to aniomate the height of the content
-    this.height = {};
+    this.settings = Object.assign({
+      animate: true,
+      duration: 300,
+    }, options);
 
-    // An animation controller
-    this.height.controller = new TweenController();
+    if (this.settings.animate) {
+      Promise.all([
+        import('@meteora-digital/tween'),
+      ]).then(([moduleTween]) => {
+        const TweenController = moduleTween.default;
+
+        // We will use this to aniomate the height of the content
+        this.height = {};
+
+        // An animation controller
+        this.height.controller = new TweenController();
+
+        // Once the animation has ended
+        this.height.controller.on('end', () => {
+          // If the dropdown is active
+          if (this.active) {
+            // Make sure it's height is set to auto
+            this.content.style.height = 'auto';
+          } else {
+            // Otherwise remove the content from the page
+            if (this.element.parentNode == this.parent) {
+              // Remove the content from the page
+              this.content.parentNode.removeChild(this.content);
+            }
+          }
+        });
+      }).catch((err) => {
+        console.error(err);
+      });
+    }
 
     // A resize observer so we can check if things have rearranged on the page
     this.resizeObserver = new ResizeObserver(() => {
@@ -46,21 +76,6 @@ export default class AccoprdionGridController {
 
     // Add the parent to the resize observer
     this.resizeObserver.observe(this.parent);
-
-    // Once the animation has ended
-    this.height.controller.on('end', () => {
-      // If the dropdown is active
-      if (this.active) {
-        // Make sure it's height is set to auto
-        this.content.style.height = 'auto';
-      } else {
-        // Otherwise remove the content from the page
-        if (this.element.parentNode == this.parent) {
-          // Remove the content from the page
-          this.content.parentNode.removeChild(this.content);
-        }
-      }
-    });
   }
 
   layout() {
@@ -99,17 +114,19 @@ export default class AccoprdionGridController {
     // Add the content to the page
     this.layout();
 
-    // Set the content height to 'auto';
-    this.content.style.height = 'auto';
-    // Update the height object
-    this.height.auto = this.content.clientHeight;
-    // Set the content height to 0;
-    this.content.style.height = '0px';
+    if (this.height) {
+      // Set the content height to 'auto';
+      this.content.style.height = 'auto';
+      // Update the height object
+      this.height.auto = this.content.clientHeight;
+      // Set the content height to 0;
+      this.content.style.height = '0px';
 
-    // Animate the content height to its 'auto' height
-    this.height.controller.tween({ from: 0, to: this.height.auto }, (value) => {
-      this.content.style.height = value + 'px';
-    });
+      // Animate the content height to its 'auto' height
+      this.height.controller.tween({ from: 0, to: this.height.auto }, (value) => {
+        this.content.style.height = value + 'px';
+      }, this.settings.duration);
+    }
 
     // Call the callback function
     this.callback('open');
@@ -124,10 +141,12 @@ export default class AccoprdionGridController {
     // Set the active state to false
     this.active = false;
 
-    // Animate the content height to 0
-    this.height.controller.tween({ from: this.content.clientHeight, to: 0 }, (value) => {
-      this.content.style.height = value + 'px';
-    });
+    if (this.height) {
+      // Animate the content height to 0
+      this.height.controller.tween({ from: this.content.clientHeight, to: 0 }, (value) => {
+        this.content.style.height = value + 'px';
+      }, this.settings.duration);
+    }
 
     // Call the callback function
     this.callback('close');

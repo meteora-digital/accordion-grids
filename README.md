@@ -14,7 +14,12 @@ yarn add @meteora-digital/accordion-grids
 ```es6
 import AccordionGridController from '@meteora-digital/accordion-grids';
 
-const Dropdown = new AccordionGridController(element);
+// Setting animate to false will prevent the TweenController dependency from being loaded and allow you to animate the content yourself
+const Dropdown = new AccordionGridController(element, {
+    // Defaults
+    animate: true,
+    duration: 300,
+});
 
 // Load the content into the dropdown controller
 Dropdown.setContent(content);
@@ -28,4 +33,3 @@ element.addEventListener('click', () => Dropdown.toggle());
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
-
