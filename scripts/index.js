@@ -129,7 +129,9 @@ export default class AccoprdionGridController {
     }
 
     // Call the callback function
-    this.callback('open');
+    window.requestAnimationFrame(() => {
+      this.callback('open');
+    });
   }
 
   close() {
@@ -149,7 +151,9 @@ export default class AccoprdionGridController {
     }
 
     // Call the callback function
-    this.callback('close');
+    window.requestAnimationFrame(() => {
+      this.callback('close');
+    });
   }
 
   toggle() {
@@ -163,7 +167,9 @@ export default class AccoprdionGridController {
     }
 
     // Call the callback function
-    this.callback('toggle');
+    window.requestAnimationFrame(() => {
+      this.callback('toggle');
+    });
   }
 
   // Method to set what content we want to show / hide
